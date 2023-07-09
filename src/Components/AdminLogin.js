@@ -2,13 +2,18 @@ import React from 'react';
 import './AdminLogin.css';
 import axios from 'axios';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useRoutes } from 'react-router-dom';
+import { Toaster, toast } from 'react-hot-toast';
 
+<div><Toaster/></div>
 const AdminLogin = () => {
+ 
   const api_url = "https://localhost:7033/api/Login/Admin";
 
   const [adminName, setEmailOrPhone] = useState('');
   const [adminPassword, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +23,7 @@ const AdminLogin = () => {
         adminName,
         adminPassword
     };
+ 
 
     console.log(payload);
 
@@ -29,20 +35,29 @@ const AdminLogin = () => {
       })
       .then((response) => {
         console.log('New item added:', response.data);
+        localStorage.setItem('token', response.data);
+        toast.success('Successfully Logged in!')
+        navigate('/D');
         // Perform any necessary actions after successful POST request
       })
       .catch((error) => {
         console.error('Error adding new item:', error);
         // Perform any necessary actions for error handling
+
       });
-  };
+      
+    };
 
   const routes = useRoutes([
     {
       path: '/',
       element: (
         <div>
-          <img src="https://i.pinimg.com/564x/05/65/bf/0565bfd66594324aa6e3b0396c65c4ce.jpg" alt="Background" className='image' style={{ marginTop: '1%', marginLeft: '10%', width: '50%' }} />
+          <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
+          <img src="https://i.pinimg.com/564x/67/dd/22/67dd227c069c17b83d8dbaa991d9a35e.jpg" alt="Background" className='image' style={{ marginTop: '1%', marginLeft: '10%', width: '50%' }} />
           <div className="container">
             <div className="form login">
               <header>Admin Login</header>
